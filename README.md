@@ -2,6 +2,10 @@
 
 Uma aplicação web moderna e intuitiva para calcular e analisar sua pegada de carbono, ajudando na estimativa de emissões e impacto ambiental.
 
+## 🌐 Demo Online
+
+https://saviohp7.github.io/carbon_calculator/
+
 ## 📋 Características
 
 - **Calculadora de Transporte** 🚗
