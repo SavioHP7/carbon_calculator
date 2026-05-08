@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculadora de pegada de carbono - calcule suas emissões de CO2">
+  <meta name="theme-color" content="#2ecc71">
+  <title>🌍 Calculadora de Carbono - Pegada de Carbono</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="CSS/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🌍</text></svg>">
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <h1>🌍 Calculadora de Carbono</h1>
+      <p>Calcule e analise sua pegada de carbono</p>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- MENSAGENS -->
+      <div id="message-container"></div>
+
+      <!-- NAVEGAÇÃO COM ABAS -->
+      <div class="tabs">
+        <button class="tab-button active" data-category="transport">
+          🚗 Transporte
+        </button>
+        <button class="tab-button" data-category="energy">
+          ⚡ Energia
+        </button>
+        <button class="tab-button" data-category="food">
+          🍔 Alimentação
+        </button>
+        <button class="tab-button" data-category="history">
+          📊 Histórico
+        </button>
+      </div>
+
+      <!-- SEÇÃO DE TRANSPORTE -->
+      <section id="transport-section" class="section active" data-section>
+        <div class="card">
+          <div class="card-header">🚗 Calcular Emissões por Transporte</div>
+          
+          <div class="card-body">
+            <p>Selecione um modo de transporte e insira a distância em km</p>
+          </div>
+
+          <!-- Modos de transporte -->
+          <div id="transport-modes"></div>
+
+          <!-- Formulário -->
+          <div class="form-group">
+            <label for="transport-distance">Distância (km)</label>
+            <input 
+              type="number" 
+              id="transport-distance" 
+              placeholder="Ex: 100" 
+              min="0" 
+              step="0.1"
+            >
+          </div>
+
+          <!-- Salvar rota -->
+          <div class="form-group">
+            <label for="route-name">Nome da Rota (opcional)</label>
+            <input 
+              type="text" 
+              id="route-name" 
+              placeholder="Ex: Casa → Trabalho"
+            >
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="btn-group">
+            <button class="btn btn-primary" data-action="calculate">
+              ✓ Calcular Emissão
+            </button>
+            <button class="btn btn-secondary" data-action="save">
+              💾 Salvar Rota
+            </button>
+            <button class="btn btn-outline" data-action="clear">
+              🔄 Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="result-container"></div>
+      </section>
+
+      <!-- SEÇÃO DE ENERGIA -->
+      <section id="energy-section" class="section" data-section>
+        <div class="card">
+          <div class="card-header">⚡ Calcular Emissões por Energia</div>
+          
+          <div class="card-body">
+            <p>Selecione um tipo de energia e insira o consumo</p>
+          </div>
+
+          <!-- Tipos de energia -->
+          <div id="energy-types"></div>
+
+          <!-- Formulário -->
+          <div class="form-group">
+            <label for="energy-consumption">Consumo</label>
+            <input 
+              type="number" 
+              id="energy-consumption" 
+              placeholder="Ex: 150" 
+              min="0" 
+              step="0.1"
+            >
+            <small class="text-muted">kWh para eletricidade, m³ para gás, kg para carvão</small>
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="btn-group">
+            <button class="btn btn-primary" data-action="calculate">
+              ✓ Calcular Emissão
+            </button>
+            <button class="btn btn-outline" data-action="clear">
+              🔄 Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="result-container"></div>
+      </section>
+
+      <!-- SEÇÃO DE ALIMENTAÇÃO -->
+      <section id="food-section" class="section" data-section>
+        <div class="card">
+          <div class="card-header">🍔 Calcular Emissões por Alimentação</div>
+          
+          <div class="card-body">
+            <p>Selecione um tipo de alimento e insira a quantidade em kg</p>
+          </div>
+
+          <!-- Tipos de alimento -->
+          <div id="food-types"></div>
+
+          <!-- Formulário -->
+          <div class="form-group">
+            <label for="food-quantity">Quantidade (kg)</label>
+            <input 
+              type="number" 
+              id="food-quantity" 
+              placeholder="Ex: 5" 
+              min="0" 
+              step="0.1"
+            >
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="btn-group">
+            <button class="btn btn-primary" data-action="calculate">
+              ✓ Calcular Emissão
+            </button>
+            <button class="btn btn-outline" data-action="clear">
+              🔄 Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="result-container"></div>
+      </section>
+
+      <!-- SEÇÃO DE HISTÓRICO -->
+      <section id="history-section" class="section" data-section>
+        <div class="card">
+          <div class="card-header">📊 Histórico de Cálculos</div>
+          
+          <div class="card-body">
+            <p>Veja todos os seus cálculos anteriores</p>
+          </div>
+
+          <!-- Histórico -->
+          <div id="history-container"></div>
+
+          <!-- Botões -->
+          <div class="btn-group">
+            <button class="btn btn-primary" id="export-history">
+              📥 Exportar Histórico
+            </button>
+            <button class="btn btn-outline" id="clear-history">
+              🗑️ Limpar Histórico
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEÇÃO DE METAS -->
+      <div class="card mt-3">
+        <div class="card-header">🎯 Comparação com Metas Globais</div>
+        <div id="targets-container"></div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>🌱 Calculadora de Carbono v1.0 | Ajudando a reduzir a pegada de carbono</p>
+      <p class="text-muted text-center">
+        <small>Desenvolvido com ❤️ para um planeta mais sustentável</small>
+      </p>
+    </footer>
+  </div>
+
+  <!-- SCRIPTS -->
+  <!-- Configuração -->
+  <script src="js/config.js"></script>
+  
+  <!-- Dados de rotas -->
+  <script src="js/routes-data.js"></script>
+  
+  <!-- Lógica de cálculos -->
+  <script src="js/calculator.js"></script>
+  
+  <!-- Manipulação do DOM -->
+  <script src="js/ui.js"></script>
+  
+  <!-- Inicialização da app -->
+  <script src="js/app.js"></script>
+
+  <script>
+    // ===================================
+    // FUNÇÕES ADICIONAIS DE INTERFACE
+    // ===================================
+
+    /**
+     * Renderiza UI inicial
+     */
+    function renderInitialUI() {
+      // Renderiza modos de transporte
+      renderTransportModes('transport-modes');
+      
+      // Renderiza tipos de energia
+      renderEnergyTypes('energy-types');
+      
+      // Renderiza tipos de alimento
+      renderFoodTypes('food-types');
+      
+      // Renderiza rotas salvass
+      const allRoutes = getAllRoutes();
+      renderRoutesSelect(allRoutes, 'routes-select');
+      
+      // Renderiza histórico
+      renderCalculationHistory();
+      
+      console.log('✓ UI inicial renderizada');
+    }
+
+    /**
+     * Renderiza histórico de cálculos
+     */
+    function renderCalculationHistory() {
+      const container = document.getElementById('history-container');
+      const history = getCalculationHistory();
+
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="alert alert-info">
+            <span class="icon">ℹ️</span>
+            <p>Nenhum cálculo realizado ainda. Comece a calcular sua pegada de carbono!</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '<div class="history-list">';
+      
+      history.slice().reverse().forEach((item, index) => {
+        const date = new Date(item.timestamp).toLocaleString('pt-BR');
+        const icon = item.icon || '📍';
+        
+        html += `
+          <div class="history-item card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 24px;">${icon}</span>
+                <strong>${item.name || item.type}</strong>
+                <span class="text-muted" style="display: block; font-size: 12px;">${date}</span>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 20px; font-weight: bold; color: #2ecc71;">
+                  ${item.co2Kg} kg
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    /**
+     * Exporta histórico como JSON
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const exportBtn = document.getElementById('export-history');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          const history = getCalculationHistory();
+          const dataStr = JSON.stringify(history, null, 2);
+          const dataBlob = new Blob([dataStr], { type: 'application/json' });
+          const url = URL.createObjectURL(dataBlob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `historico_carbono_${new Date().toISOString().split('T')[0]}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          showSuccessMessage('Histórico exportado com sucesso!');
+        });
+      }
+
+      const clearHistoryBtn = document.getElementById('clear-history');
+      if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', () => {
+          if (confirm('Tem certeza que deseja limpar todo o histórico? Esta ação não pode ser desfeita.')) {
+            clearCalculationHistory();
+            renderCalculationHistory();
+          }
+        });
+      }
+    });
+
+    /**
+     * Renderiza UI inicial quando a página carrega
+     */
+    function renderUI() {
+      renderInitialUI();
+      loadCalculationsFromStorage();
+      renderCalculationHistory();
+      
+      // Atualiza histórico sempre que há um novo cálculo
+      const originalCalculate = window.handleCalculate;
+      window.handleCalculate = function(e) {
+        originalCalculate.call(this, e);
+        setTimeout(() => {
+          renderCalculationHistory();
+        }, 500);
+      };
+    }
+
+    // Executa quando o DOM está pronto
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderUI);
+    } else {
+      renderUI();
+    }
+  </script>
+</body>
+</html>
